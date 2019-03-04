@@ -131,7 +131,7 @@ bylos_vieta &lt;-<span class="st"> </span>
 <span class="kw">print</span>(bylos_vieta)
 
 <span class="co"># PowerPoint bylos atidarymas ------------------------------------------------</span>
-<span class="kw">browseURL</span>(bylos_vieta)</code></pre></div></div><div id="programos-kodo-elementai"class="section level2"><h2><span class="header-section-number">9.9</span> Programos kodo elementai</h2><div id="duomenu-lenteliu-sudarymas-is-vektoriu"class="section level3"><h3><span class="header-section-number">9.9.1</span> Duomenų lentelių sudarymas iš vektorių</h3><p>Duomenų sekų (vektroių) vertimas į duomenų lenteles vykdomas naudojant funkciją <code class="sourceCode r"><span class="kw">data.frame</span>()</code> (duomenų lentelė), <code class="sourceCode r"><span class="kw">tibble</span>()</code> iš paketo <strong>tibble</strong> ar pan. Iš principo tai tokios pat lentelės, tik atspausdinamos kitaip.</p><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+<span class="kw">browseURL</span>(bylos_vieta)</code></pre></div></div><div id="programos-kodo-elementai"class="section level2"><h2><span class="header-section-number">9.9</span> Programos kodo elementai</h2><div id="duomenu-lenteliu-sudarymas-is-vektoriu"class="section level3"><h3><span class="header-section-number">9.9.1</span> Duomenų lentelių sudarymas iš vektorių</h3><p>Duomenų sekų (vektorių) vertimas į duomenų lenteles vykdomas naudojant funkciją <code class="sourceCode r"><span class="kw">data.frame</span>()</code> (duomenų lentelė), <code class="sourceCode r"><span class="kw">tibble</span>()</code> iš paketo <strong>tibble</strong> ar pan. Iš principo tai tokios pat lentelės, tik atspausdinamos kitaip.</p><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
 vektorius &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">3</span>
 
 (duom_lentele &lt;-<span class="st"> </span><span class="kw">data.frame</span>(vektorius))
@@ -188,11 +188,11 @@ duom_lentele_<span class="dv">2</span>
 <span class="kw">glimpse</span>(iris)
 <span>## Observations: 150</span>
 <span>## Variables: 5</span>
-<span>## $ Sepal.Length &lt;dbl&gt; 5.1, 4.9, 4.7, 4.6, 5.0, 5.4, 4.6, 5.0, 4.4, 4.9,...</span>
-<span>## $ Sepal.Width  &lt;dbl&gt; 3.5, 3.0, 3.2, 3.1, 3.6, 3.9, 3.4, 3.4, 2.9, 3.1,...</span>
-<span>## $ Petal.Length &lt;dbl&gt; 1.4, 1.4, 1.3, 1.5, 1.4, 1.7, 1.4, 1.5, 1.4, 1.5,...</span>
-<span>## $ Petal.Width  &lt;dbl&gt; 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1,...</span>
-<span>## $ Species      &lt;fct&gt; setosa, setosa, setosa, setosa, setosa, setosa, s...</span></code></pre><p>Iš lentelės „iris“ pasirenkame stulpelį „Species“ ir paverčiame jį į vektorių:</p><pre class="sourceCode r"><code class="sourceCode r">rusys &lt;-<span class="st"> </span>iris<span class="op">$</span>Species 
+<span>## $ Sepal.Length &lt;dbl&gt; 5.1, 4.9, 4.7, 4.6, 5.0, 5.4, 4.6, 5.0, 4...</span>
+<span>## $ Sepal.Width  &lt;dbl&gt; 3.5, 3.0, 3.2, 3.1, 3.6, 3.9, 3.4, 3.4, 2...</span>
+<span>## $ Petal.Length &lt;dbl&gt; 1.4, 1.4, 1.3, 1.5, 1.4, 1.7, 1.4, 1.5, 1...</span>
+<span>## $ Petal.Width  &lt;dbl&gt; 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0...</span>
+<span>## $ Species      &lt;fct&gt; setosa, setosa, setosa, setosa, setosa, s...</span></code></pre><p>Iš lentelės „iris“ pasirenkame stulpelį „Species“ ir paverčiame jį į vektorių:</p><pre class="sourceCode r"><code class="sourceCode r">rusys &lt;-<span class="st"> </span>iris<span class="op">$</span>Species 
 <span class="kw">head</span>(rusys)
 <span>## [1] setosa setosa setosa setosa setosa setosa</span>
 <span>## Levels: setosa versicolor virginica</span></code></pre><p>Kitas būdas:</p><pre class="sourceCode r"><code class="sourceCode r">rusys_<span class="dv">2</span> &lt;-<span class="st"> </span>iris[[<span class="st">&quot;Species&quot;</span>]] 
@@ -220,7 +220,7 @@ duomenys <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"
 
 (<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>() <span class="co"># Reikia skliaustų (1:5)</span>
 <span>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span>##       1       2       3       3       4       5</span></code></pre><p>Prieš skliaustus išlekiame viską iki pirmojo kablelio, o kablelį ištriname:</p><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>, <span class="ot">NA</span>)
+<span>##       1       2       3       3       4       5</span></code></pre><p>Prieš skliaustus iškeliame viską iki pirmojo kablelio, o kablelį ištriname:</p><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>, <span class="ot">NA</span>)
 
 <span class="kw">mean</span>(x, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
 <span>## [1] 8</span>
