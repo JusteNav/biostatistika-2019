@@ -232,7 +232,7 @@ duomenys &lt;-<span class="st"> </span><span class="dv">1</span><span class="op"
 <span class="kw">exp</span>(<span class="kw">mean</span>(duomenys))
 <span>## [1] 244.6919</span>
 
-<span class="co"># Paverčiame į užrašą nuosekliu būtu:</span>
+<span class="co"># Paverčiame į užrašą nuosekliu būdu:</span>
 duomenys <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mean</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">exp</span>()
 <span>## [1] 244.6919</span></code></pre><p>Iš čia matome, kad sukurtą duomenų seką pirma susidukriname, po to įvykdome <code class="sourceCode r"><span class="kw">exp</span>()</code>. Toks užrašymas ypač patogus, kai turime žymiai sudėtingesnius veiksmus atliekančias funkcijas.</p><p>Įprastinis operatoriaus naudojimas:</p><pre class="sourceCode r"><code class="sourceCode r">rezultatas &lt;-<span class="st"> </span>
 <span class="st">    </span>duomenys <span class="op">%&gt;%</span>
