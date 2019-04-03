@@ -186,7 +186,7 @@ addins.rs	            0.0.5
     
     
     if (recommended_ok) {
-        cat("\n   Rekomenduojami paketai jusu kompiuteryje yra.\n")
+        cat("\n   Rekomenduojami paketai jusu kompiuteryje jau yra.\n")
         
     } else {
         
