@@ -1,6 +1,9 @@
 
 bs_check_packages <- function() {
     
+    chk_versija <- "\nIdiegtu paketu patikra (v1.0, 2019-04-03)\n\n"
+    cat(chk_versija)
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     recommended_ok <- TRUE
     
     recommended_pkgs <- 
@@ -136,12 +139,6 @@ addins.rs	            0.0.5
         cat(paste0(missing_pkgs, sep = "\n"), sep = "")
         # cat("\n--------------------------------------------------------------------\n")
     }
-    
-    # inst_pkgs %>%
-    #     filter(Package %in% recommended_pkgs) %>% 
-    #     arrange(Package) %>% 
-    #     print(right = FALSE)
-    
     
     
     # Remove not installed
