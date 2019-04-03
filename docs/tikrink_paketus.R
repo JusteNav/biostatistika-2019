@@ -166,7 +166,7 @@ addins.rs	            0.0.5
             rocommended_ok <- FALSE
             
             cat("\n--- Paketai, kuriuos reikia atnaujinti: ----------------------------\n\n")
-            print(DF[needs_update, c(1, 2, 4, 5) ])
+            print(DF[needs_update, ])
             # cat("\n-------------------------------------------------------------------\n")
         }
         
