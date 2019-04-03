@@ -1,7 +1,7 @@
 
 bs_check_packages <- function() {
     
-    rocommended_ok <- TRUE
+    recommended_ok <- TRUE
     
     recommended_pkgs <- 
         c("remotes",
@@ -130,7 +130,7 @@ addins.rs	            0.0.5
     
     
     if (length(missing_pkgs) > 0) {
-        rocommended_ok <- FALSE
+        recommended_ok <- FALSE
         
         cat("\n--- Paketai, kuriuos rekomenduojama idiegti: -----------------------\n\n")
         cat(paste0(missing_pkgs, sep = "\n"), sep = "")
@@ -163,7 +163,7 @@ addins.rs	            0.0.5
         needs_update <- DF$busena != "OK"
         
         if (any(needs_update)) {
-            rocommended_ok <- FALSE
+            recommended_ok <- FALSE
             
             cat("\n--- Paketai, kuriuos reikia atnaujinti: ----------------------------\n\n")
             print(DF[needs_update, ])
@@ -172,8 +172,21 @@ addins.rs	            0.0.5
         
     }
     
-    if (rocommended_ok) {
-        cat("Patikra baigta: rekomenduojami paketai jusu kompiuteryje yra.\n")
+    cat("--- Patikra baigta: ---------------------------------------------- \n")
+    
+    
+    current_r_version <- paste0(R.version$major, ".", R.version$minor)
+    if (compareVersion(current_r_version, "3.5.3") < 0) {
+        cat("\n   Jūsų 'R' versija yra ", current_r_version, ". \n", 
+              "   Rekomenduojama versija yra R iki 3.5.3. \n",
+              "   Ją galite atsisiųsti iš https://cran.r-project.org", sep = "")
+    }
+    
+    
+    
+    
+    if (recommended_ok) {
+        cat("\n   Rekomenduojami paketai jusu kompiuteryje yra.\n")
         
     } else {
         
@@ -189,7 +202,9 @@ addins.rs	            0.0.5
                    trimws(tmp_df$diegimo_kodas))
         
         
-        cat("\nPatikra baigta.\n Rekomenduojama perkrauti „R“ ir atnaujinti paketus naudojant kodą: \n\n")
+        cat(
+            "   Rekomenduojama išjungti 'RStudio' projektar arba PERKRAUTI 'R' <--- \n",
+            "   ir atnaujinti paketus naudojant pateikta koda: \n\n")
         
         cat(installation_code, sep = "\n")
     }
