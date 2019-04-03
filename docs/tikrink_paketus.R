@@ -169,7 +169,7 @@ addins.rs	            0.0.5
         
     }
     
-    cat("--- Patikra baigta: ---------------------------------------------- \n")
+    cat("\n--- Patikra baigta: ---------------------------------------------- \n")
     
     
     current_r_version <- paste0(R.version$major, ".", R.version$minor)
