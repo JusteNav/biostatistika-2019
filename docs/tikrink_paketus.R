@@ -1,7 +1,8 @@
 
 bs_check_packages <- function() {
     
-    chk_versija <- "\nIdiegtu paketu patikra (v1.0, 2019-04-03)\n\n"
+    message(Sys.time())
+    chk_versija <- "\n'R' versijos ir idiegtu paketu patikra (v1.1, 2019-04-04)\n\n"
     cat(chk_versija)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     recommended_ok <- TRUE
@@ -173,13 +174,15 @@ addins.rs	            0.0.5
     
     
     current_r_version <- paste0(R.version$major, ".", R.version$minor)
+    
     if (compareVersion(current_r_version, "3.5.3") < 0) {
-        cat("\n   ", current_r_version, " - dabartine 'R' versija jusu kompiuteryje. \n", 
-              "   3.5.3 - rekomenduojama 'R' versija. \n",
-              "   Nauja 'R' versija galite atsisiusti is:     https://cran.r-project.org \n\n", sep = "")
+        
+        cat("\n   Pirmiausia rekomenduojama atnaujinti 'R' \n\n",
+            "   ", current_r_version, " - dabartine 'R' versija jusu kompiuteryje. \n", 
+            "   3.5.3 - rekomenduojama 'R' versija. Ja galite atsisiusti is https://cran.r-project.org/\n\n",
+            "     - [Windows] https://cran.r-project.org/bin/windows/base/R-3.5.3-win.exe\n",
+            "     - [Mac]     https://cran.r-project.org/bin/macosx/R-3.5.3.pkg \n\n", sep = "")
     }
-    
-    
     
     
     if (recommended_ok) {
@@ -189,9 +192,15 @@ addins.rs	            0.0.5
         
         DF_missing_pkgs <- data.frame(paketas = missing_pkgs, stringsAsFactors = FALSE)
         
-        DF_missing_pkgs <- merge(DF_missing_pkgs, DF[needs_update, ], all = TRUE)
+        DF_missing_pkgs <-
+            merge(DF_missing_pkgs, DF[needs_update, ],
+                  all = TRUE,
+                  sort = FALSE)
         
-        tmp_df <- merge(DF_missing_pkgs, different_installation_code, all.x = TRUE)
+        tmp_df <- 
+            merge(DF_missing_pkgs, different_installation_code,
+                  all.x = TRUE,
+                  sort = FALSE)
         
         installation_code <- 
             ifelse(is.na(tmp_df$diegimo_kodas), 
@@ -200,10 +209,10 @@ addins.rs	            0.0.5
         
         
         cat(
-            "   Rekomenduojama:\n",
-            "     - isjungti 'RStudio' projekta, \n",
-            "     - perkrauti 'R'                            <--- \n",
-            "     - ir tik tada atnaujinti paketus naudojant koda: \n\n", sep = "")
+            "\n   Rekomenduojama:\n",
+            "     1. isjungti 'RStudio' projekta, \n",
+            "     2. perkrauti, 'R'                            <--- \n",
+            "     3. tik tada atnaujinti paketus naudojant koda: \n\n", sep = "")
         
         cat(installation_code, sep = "\n")
     }
