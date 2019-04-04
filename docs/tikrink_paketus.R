@@ -174,9 +174,9 @@ addins.rs	            0.0.5
     
     current_r_version <- paste0(R.version$major, ".", R.version$minor)
     if (compareVersion(current_r_version, "3.5.3") < 0) {
-        cat("\n   Jusu 'R' versija yra ", current_r_version, ". \n", 
-              "   Rekomenduojama versija yra R iki 3.5.3. \n",
-              "   Ja galite atsisiusti is https://cran.r-project.org", sep = "")
+        cat("\n   ", current_r_version, " - dabartine 'R' versija jusu kompiuteryje. \n", 
+              "   3.5.3 - rekomenduojama 'R' versija. \n",
+              "   Nauja 'R' versija galite atsisiusti is:     https://cran.r-project.org \n\n", sep = "")
     }
     
     
@@ -200,8 +200,10 @@ addins.rs	            0.0.5
         
         
         cat(
-            "   Rekomenduojama isjungti 'RStudio' projekta arba PERKRAUTI 'R' <--- \n",
-            "   ir atnaujinti paketus naudojant pateikta koda: \n\n")
+            "   Rekomenduojama:\n",
+            "     - isjungti 'RStudio' projekta, \n",
+            "     - perkrauti 'R'                            <--- \n",
+            "     - ir tik tada atnaujinti paketus naudojant koda: \n\n", sep = "")
         
         cat(installation_code, sep = "\n")
     }
