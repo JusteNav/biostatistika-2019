@@ -87,7 +87,7 @@ bs_check_packages <- function() {
           
           "pander",
           "knitr",
-          "rmarkdown",
+          "rmarkdown"
           
         ) 
     
