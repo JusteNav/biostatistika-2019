@@ -2,7 +2,7 @@
 bs_check_packages <- function() {
     
     message(Sys.time())
-    chk_versija <- "\n'R' versijos ir idiegtu paketu patikra (v1.1, 2019-04-04)\n\n"
+    chk_versija <- "\n'R' versijos ir idiegtu paketu patikra (v1.2, 2019-04-10)\n\n"
     cat(chk_versija)
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     recommended_ok <- TRUE
@@ -117,7 +117,7 @@ addins.rs	            remotes::install_github("GegznaV/addins.rs", upgrade = TRU
                          'paketas	            reikiama_versija 
 RcmdrPlugin.EZR.as.menu	1.38
 skimr	                2.0
-RcmdrPlugin.biostat	    0.0.25
+RcmdrPlugin.biostat	    0.0.26
 dplyr	                0.8.0
 pander	                0.6.3
 latex2exp	            0.4.0
