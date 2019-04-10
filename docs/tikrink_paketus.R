@@ -13,17 +13,7 @@ bs_check_packages <- function() {
           "ctv", 
           
           "ggplot2", 
-          "ggpubr",
-          "ggrepel", 
-          "ggthemes", 
-          "ggmosaic",
-          "plotly", 
-          "cowplot",
-          "qqplotr", 
-          "ggstatsplot", 
-          'latex2exp',
-          
-          
+
           "data.table",  
           "BBmisc",  
           "checkmate", 
@@ -48,9 +38,9 @@ bs_check_packages <- function() {
           "tidyselect",
           "readxl",
           "forcats", 
-          "dplyr",
           "stringi", 
           "stringr",
+          "dplyr",
           "tidyr",
           "broom",
           "tidyverse",
@@ -59,6 +49,7 @@ bs_check_packages <- function() {
           "shiny", 
           "PMCMR", 
           "PMCMRplus",
+          
           "officer", 
           "flextable",
           "rcompanion",
@@ -73,6 +64,15 @@ bs_check_packages <- function() {
           "DescTools",
           "skimr", 
           
+          "ggthemes", 
+          "ggpubr",
+          "ggrepel", 
+          "ggmosaic",
+          "cowplot",
+          "qqplotr", 
+          "plotly", 
+          "ggstatsplot", 
+          'latex2exp',
           
           "Rcmdr", 
           "RcmdrMisc", 
@@ -87,7 +87,8 @@ bs_check_packages <- function() {
           
           "pander",
           "knitr",
-          "rmarkdown"
+          "rmarkdown",
+          
         ) 
     
     
@@ -115,15 +116,15 @@ addins.rs	            remotes::install_github("GegznaV/addins.rs", upgrade = TRU
                      text = 
                          
                          'paketas	            reikiama_versija 
-RcmdrPlugin.EZR.as.menu	1.38
-skimr	                2.0
-RcmdrPlugin.biostat	    0.0.26
 dplyr	                0.8.0
+skimr	                2.0
 pander	                0.6.3
 latex2exp	            0.4.0
 addin.tools	            0.0.4
 addins.rmd	            0.0.6
 addins.rs	            0.0.5
+RcmdrPlugin.EZR.as.menu	1.38
+RcmdrPlugin.biostat	    0.0.26
 ')
     
     inst_pkgs <- as.data.frame(installed.packages()[, c("Package", "Version")])
