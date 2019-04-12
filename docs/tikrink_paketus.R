@@ -269,6 +269,7 @@ RcmdrPlugin.biostat     | remotes::install_github("GegznaV/RcmdrPlugin.biostat",
                 sep = "")
             # "     - [Windows] https://cran.r-project.org/bin/windows/base/R-", recommended_r_version, "-win.exe\n",
             # "     - [Mac]     https://cran.r-project.org/bin/macosx/R-", recommended_r_version, ".pkg \n", sep = "")
+            return(TRUE)
         }
     }
     
@@ -282,6 +283,7 @@ RcmdrPlugin.biostat     | remotes::install_github("GegznaV/RcmdrPlugin.biostat",
             cat("\nRekomenduojama isidiegti programa 'RStudio': \n\n",
                 "   https://www.rstudio.com/products/rstudio/download/\n\n",
                 sep = "")
+            return(TRUE)
             
         } else {
             
@@ -295,6 +297,7 @@ RcmdrPlugin.biostat     | remotes::install_github("GegznaV/RcmdrPlugin.biostat",
                     "   ", recommended_version, " - rekomenduojama si arba naujesne versija, nurodyta tinklapyje: \n\n",
                     "   https://www.rstudio.com/products/rstudio/download/\n\n",
                     sep = "")
+                return(TRUE)
             }
         }
     }    
@@ -366,19 +369,23 @@ RcmdrPlugin.biostat     | remotes::install_github("GegznaV/RcmdrPlugin.biostat",
     cat("\n\n___ Patikros ataskaita: _____________________________________________________ \n")
     
     # Check R version --------------------------------------------------------
-    check_r_version(recommended_r_version = "3.5.3")
+    chk_r <- check_r_version(recommended_r_version = "3.5.3")
+    
     
     # Check RStudio version --------------------------------------------------
-    check_rs_version(recommended_version = "1.2.1335")
+    chk_rs <- check_rs_version(recommended_version = "1.2.1335")
+    
     
     # Check packages ---------------------------------------------------------
-    
-    line()
     if (recommended_ok) {
+        if (isTRUE(chk_r) || isTRUE(chk_rs)) {
+            line()   
+        }
         cat("\n   Rekomenduojamos minimalios paketu versijos jusu kompiuteryje jau yra.\n")
         line()
         
     } else {
+        line()
         
         cat("\n--- Paketai, kuriuos rekomenduojama idiegti arba atnaujinti: ----------------\n\n")
         print(tmp3)
