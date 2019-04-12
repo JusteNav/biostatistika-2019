@@ -1,10 +1,66 @@
 
-bs_check_packages <- function() {
+bs_check_packages <- function(clear_console = FALSE) {
+    
     # v2.0
-    message(Sys.time())
-    chk_versija <- "\n'R' versijos ir idiegtu paketu patikra \n    (patikros kodas atnaujintas 2019-04-11)\n\n"
+    
+    if (clear_console == TRUE) {
+        cat("\014")
+        
+    } else {
+        cat("\n\n")
+    }
+    
+    line <- function() {
+        cat("\n-----------------------------------------------------------------------------\n")
+        
+    }
+    
+    # Initial message --------------------------------------------------------
+    line()
+    cat(as.character(Sys.time()), "\n")
+    
+    chk_versija <- "\nProgramos 'R' ir idiegtu paketu patikra (versija 2019-04-12)\n"
     cat(chk_versija)
+    
+    # Functions --------------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    get_pkgs_req_version <- function() {
+        read.table(
+            header = TRUE, sep = "|", stringsAsFactors = FALSE, quote = "'",
+            strip.white = TRUE, text = 
+                
+                'paketas	                | reikiama_versija 
+dplyr	                    | 0.8.0
+skimr	                    | 2.0
+pander	                    | 0.6.3
+Rcmdr	                    | 2.5-2
+car 	                    | 3.0-3
+latex2exp	                | 0.4.0
+addin.tools 	            | 0.0.4
+addins.rmd	                | 0.0.6
+addins.rs	                | 0.0.5
+RcmdrPlugin.EZR.as.menu 	| 1.38
+RcmdrPlugin.biostat 	    | 0.0.26
+') 
+    }
+    
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    get_pkgs_installation_code <- function() {
+        read.table(
+            header = TRUE, sep = "|", stringsAsFactors = FALSE, quote = "'",
+            strip.white = TRUE, text = 
+                'paketas	            | diegimo_kodas
+latex2exp	            | remotes::install_github("stefano-meschiari/latex2exp", upgrade = TRUE)
+addin.tools	            | remotes::install_github("GegznaV/addin.tools", upgrade = TRUE)
+addins.rmd	            | remotes::install_github("GegznaV/addins.rmd", upgrade = TRUE)
+addins.rs	            | remotes::install_github("GegznaV/addins.rs", upgrade = TRUE)
+car	                    | install.packages("car", repos = "http://R-Forge.R-project.org")
+skimr	                | remotes::install_github("ropenscilabs/skimr", ref = "v2", upgrade = TRUE)
+pander	                | remotes::install_github("Rapporter/pander", upgrade = TRUE)
+RcmdrPlugin.EZR.as.menu	| remotes::install_github("GegznaV/RcmdrPlugin.EZR@ezr_as_menu", upgrade = TRUE)
+RcmdrPlugin.biostat	    | remotes::install_github("GegznaV/RcmdrPlugin.biostat", ref = "biostat19_not_final", upgrade = TRUE)
+')
+    }
     
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     get_pkgs_installed <- function() {
@@ -12,91 +68,173 @@ bs_check_packages <- function() {
         rownames(pkgs_existing) <- NULL
         as.data.frame(pkgs_existing, stringsAsFactors = FALSE)
     }
-    
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    optimize_order_of_packages <- function(
+        pkgs_vec = get_pkgs_recommended()$paketas,
+        recursive_dependencies = TRUE) {
+        # Helpeer function that suggest how to optimize order of packages in the 
+        # vector of packages in order not to repeat installation of the same
+        # packages.
+        
+        # recursive_dependencies = TRUE requires internet connection.
+        
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        
+        # All packages in the list before the current one:
+        # pkgs_vec[1:which(pkgs_vec == "cowplot")]
+        
+        # All packages in the list after the current one:
+        # rev(pkgs_vec)[1:which(rev(pkgs_vec) == "cowplot")]
+        
+        
+        list_after <- function(which, list) {
+            rev(rev(list)[1:which(rev(list) == which)])
+        }
+        
+        list_before <- function(which, list) {
+            list[1:which(list == which)]
+        }
+        
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        
+        deps <- 
+            tools::package_dependencies(
+                pkgs_vec, which = c("Depends", "Imports"), 
+                reverse = FALSE, 
+                recursive = recursive_dependencies
+            )
+        
+        rev_deps <- 
+            tools::package_dependencies(
+                pkgs_vec, which = c("Depends", "Imports"),
+                reverse = TRUE, 
+                recursive = recursive_dependencies
+            )
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        
+        move_after <-
+            imap(deps, ~ str_c(.x[.x %in% list_after(.y, list = pkgs_vec)])) %>% 
+            discard(~length(.) == 0) %>% 
+            imap_chr(~str_c(str_pad(.y, 20), " (move after): ",
+                            str_c(.x, collapse = ", "))) %>% 
+            map_chr(structure, class = "glue") %>% 
+            unname()
+        
+        
+        move_before <- 
+            imap(rev_deps, ~ str_c(.x[.x %in% list_before(.y, list = pkgs_vec)])) %>% 
+            discard(~length(.) == 0) %>% 
+            imap_chr(~str_c(str_pad(.y, 20), " (move before): ", 
+                            str_c(.x, collapse = ", "))) %>% 
+            map_chr(structure, class = "glue") %>% 
+            unname()
+        
+        
+        list(move_before = move_before, move_after = move_after)
+        
+    }
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     get_pkgs_recommended <- function() {
-        pkgs_vec <-
-            c("remotes",
-              "devtools",
-              "ctv", 
-              
-              "ggplot2", 
-              
-              "data.table",  
-              "BBmisc",  
-              "checkmate", 
-              "infer", 
-              "aplpack",
-              "arm", 
-              "coda",
-              "leaps",
-              "lmtest", 
-              "matrixcalc",
-              "sem", 
-              "TH.data",
-              "rgl",
-              "mi", 
-              "multcomp",
-              "multcompView",
-              "mvtnorm", 
-              "car", 
-              "carData",
-              "RCurl", 
-              "openxlsx", 
-              "tidyselect",
-              "readxl",
-              "forcats", 
-              "stringi", 
-              "stringr",
-              "dplyr",
-              "tidyr",
-              "broom",
-              "tidyverse",
-              "sigr", 
-              "fs",
-              "shiny", 
-              "PMCMR", 
-              "PMCMRplus",
-              
-              "officer", 
-              "flextable",
-              "rcompanion",
-              "rvg",
-              
-              "vcd",
-              "vcdExtra",
-              "fitdistrplus",
-              
-              "descriptr",
-              "userfriendlyscience",
-              "DescTools",
-              "skimr", 
-              
-              "ggthemes", 
-              "ggpubr",
-              "ggrepel", 
-              "ggmosaic",
-              "cowplot",
-              "qqplotr", 
-              "plotly", 
-              "ggstatsplot", 
-              'latex2exp',
-              
-              "addin.tools", 
-              "addins.rmd", 
-              "addins.rs", 
-              
-              "pander",
-              "knitr",
-              "rmarkdown",
-              
-              "Rcmdr", 
-              "RcmdrMisc", 
-              "RcmdrPlugin.EZR",
-              "RcmdrPlugin.KMggplot2",
-              "RcmdrPlugin.EZR.as.menu",
-              "RcmdrPlugin.biostat"
-            ) 
+        pkgs_vec <- c(
+            "remotes", 
+            "fs",
+            "devtools",
+            "ctv", 
+            
+            "data.table",  
+            "checkmate", 
+            "BBmisc", 
+            "shiny", 
+            
+            "aplpack",
+            "coda",
+            "arm", 
+            "leaps",
+            "lmtest", 
+            "matrixcalc",
+            "mi", 
+            "sem", 
+            "TH.data",
+            "mvtnorm", 
+            "multcomp",
+            "multcompView",
+            
+            "openxlsx", 
+            "readxl",
+            "forcats", 
+            
+            "carData",
+            "car", 
+            "RCurl", 
+            
+            "tidyselect",
+            "stringi", 
+            "stringr",
+            "dplyr",
+            "tidyr",
+            "ggplot2", 
+            "broom",
+            
+            "knitr",
+            "rmarkdown",
+            "rgl",
+            
+            "tidyverse",
+            
+            # "DT",
+            "sigr", 
+            "PMCMR", 
+            "PMCMRplus",
+            
+            "officer", 
+            "flextable",
+            "rvg",
+            
+            "vcd",
+            "vcdExtra",
+            "fitdistrplus",
+            
+            "plotly", 
+            "ggthemes", 
+            "ggrepel", 
+            "cowplot",
+            "qqplotr", 
+            "ggmosaic",
+            "ggpubr",
+            "latex2exp",
+            
+            "addin.tools", 
+            "addins.rmd", 
+            "addins.rs", 
+            
+            "pander",
+            
+            # "descriptr",
+            
+            "chemCal",
+            "userfriendlyscience",
+            "DescTools",
+            "rcompanion",
+            "skimr", 
+            # "infer",
+            
+            "RcmdrMisc", 
+            "Rcmdr", 
+            "RcmdrPlugin.EZR",
+            "RcmdrPlugin.KMggplot2",
+            "RcmdrPlugin.EZR.as.menu",
+            "RcmdrPlugin.biostat",
+            
+            "ggstatsplot", # PAckage has a lot of dependencies
+            NULL
+        ) 
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Check, if the order of packages is optimal.
+        # character(0) indicates that nothing must be moved.
+        
+        # optimize_order_of_packages(pkgs_vec, recursive_dependencies = FALSE)
+        # optimize_order_of_packages(pkgs_vec, recursive_dependencies = TRUE)
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         
         data.frame(nr = seq_along(pkgs_vec),
                    paketas = pkgs_vec,
@@ -104,62 +242,35 @@ bs_check_packages <- function() {
     }
     
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    get_pkgs_req_version <- function() {
-        read.table(
-            header = TRUE, sep = "\t", stringsAsFactors = FALSE, quote = "'",
-            text = 
-                
-                'paketas	            reikiama_versija 
-dplyr	                0.8.0
-skimr	                2.0
-pander	                0.6.3
-latex2exp	            0.4.0
-addin.tools	            0.0.4
-addins.rmd	            0.0.6
-addins.rs	            0.0.5
-RcmdrPlugin.EZR.as.menu	1.38
-RcmdrPlugin.biostat	    0.0.26
-') 
-    }
-    
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    get_pkgs_installation_code <- function() {
-        read.table(
-            header = TRUE, sep = "\t", stringsAsFactors = FALSE, quote = "'",
-            text = 
-                'paketas	            diegimo_kodas
-latex2exp	            remotes::install_github("stefano-meschiari/latex2exp", upgrade = TRUE)
-skimr	                remotes::install_github("ropenscilabs/skimr", ref = "v2", upgrade = TRUE)
-pander	                remotes::install_github("Rapporter/pander", upgrade = TRUE)
-RcmdrPlugin.EZR.as.menu	remotes::install_github("GegznaV/RcmdrPlugin.EZR@ezr_as_menu", upgrade = TRUE)
-RcmdrPlugin.biostat	    remotes::install_github("GegznaV/RcmdrPlugin.biostat", ref = "biostat19_not_final", upgrade = TRUE)
-addin.tools	            remotes::install_github("GegznaV/addin.tools", upgrade = TRUE)
-addins.rmd	            remotes::install_github("GegznaV/addins.rmd", upgrade = TRUE)
-addins.rs	            remotes::install_github("GegznaV/addins.rs", upgrade = TRUE)
-')
-    }
-    
-    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    check_r_version <- function(recommended_version) {
+    check_r_version <- function(recommended_version, packages_ok = TRUE) {
         # recommended_version <- "3.5.3"
         
         current_r_version <- paste0(R.version$major, ".", R.version$minor)
         
         if (compareVersion(current_r_version, recommended_version) < 0) {
-            
-            cat("\n\n   Bet pirmiausia rekomenduojama atnaujinti programa 'R': \n\n",
+            line()
+            txt_1 <- 
+                if (packages_ok) {
+                    "Bet rekomenduojama"
+                    
+                } else {
+                    
+                    "Bet pirmiausia rekomenduojama"  
+                }
+                    
+            cat("\n   ", txt_1, " atnaujinti programa 'R': \n\n",
                 "   ", current_r_version, " - dabartine 'R' versija jusu kompiuteryje. \n", 
                 "   ", recommended_version, " - rekomenduojama 'R' versija. Ja galite atsisiusti is https://cran.r-project.org/\n\n",
                 "     - [Windows] https://cran.r-project.org/bin/windows/base/R-", recommended_version, "-win.exe\n",
-                "     - [Mac]     https://cran.r-project.org/bin/macosx/R-", recommended_version, ".pkg \n\n", sep = "")
-        } 
+                "     - [Mac]     https://cran.r-project.org/bin/macosx/R-", recommended_version, ".pkg \n", sep = "")
+        }
+        line()
     }
     
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     package_installation_code <- function(pkgs) {
         
-        pkgs_df <- data.frame(paketas = pkgs, l = seq_along(pkgs), stringsAsFactors = FALSE)
-        
+        pkgs_df   <- data.frame(paketas = pkgs, l = seq_along(pkgs), stringsAsFactors = FALSE)
         pkgs_code <- get_pkgs_installation_code()
         
         tmp_df <- merge(
@@ -192,11 +303,11 @@ addins.rs	            remotes::install_github("GegznaV/addins.rs", upgrade = TRU
         busena
     }
     
-    
+    # Main calculations for packages -----------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     recommended_ok <- TRUE
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+    
     tmp <- merge(get_pkgs_recommended(), get_pkgs_installed(), by.x = "paketas", by.y = "Package", all.x = TRUE)
     tmp <- merge(tmp, get_pkgs_req_version(), by = "paketas", all.x = TRUE)
     
@@ -215,34 +326,37 @@ addins.rs	            remotes::install_github("GegznaV/addins.rs", upgrade = TRU
     tmp3$Reikiama_min_versija[is.na(tmp3$Reikiama_min_versija)] <- ""    
     rownames(tmp3) <- NULL
     
+    # Print output (required packages) ---------------------------------------
     if (nrow(tmp3) > 0) {
         recommended_ok <- FALSE
         
-        cat("\n--- Paketai, kuriuos rekomenduojama idiegti arba atnaujinti: ----------\n\n")
-        print(tmp3)
-        # cat("\n--------------------------------------------------------------------\n")
     }
     
-    cat("\n--- Patikra baigta: --------------------------------------------------- \n")
-
+    cat("\n\n___ Patikra baigta: _________________________________________________________ \n")
+    
+    # Check packages
     if (recommended_ok) {
-        cat("\n   Rekomenduojami paketai jusu kompiuteryje jau yra.\n")
-        
-    } else {
+        cat("\n   Rekomenduojamos minimalios paketu versijos jusu kompiuteryje jau yra.\n")
 
+    } else {
+        
+        cat("\n--- Paketai, kuriuos rekomenduojama idiegti arba atnaujinti: ----------------\n\n")
+        print(tmp3)
+        
         cat(
-            "\n   Rekomenduojama atnaujinti/idiegti paketus :\n",
-            "     1. isjunkite 'RStudio' projekta, \n",
-            "     2. perkraukite 'R',                                    <--- \n",
+            "\n\n   Pries diegdami (atnaujindami) paketus:\n",
+            "     1. isjunkite 'RStudio' projekta; \n",
+            "     2. perkraukite 'R';                              <--- \n",
             "     3. tik tada naudodami si koda idiekite paketus: \n\n", sep = "")
         
         cat(installation_code, sep = "\n")
     }
     
-    check_r_version(recommended_version = "3.5.3")
+    # Check R version --------------------------------------------------------
+    check_r_version(recommended_version = "3.5.3", recommended_ok)
     
 }
 
-bs_check_packages()
+bs_check_packages(clear_console = TRUE)
 
 
