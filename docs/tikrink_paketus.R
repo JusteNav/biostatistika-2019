@@ -19,7 +19,7 @@ bs_check_packages <- function(clear_console = FALSE) {
     line()
     cat(as.character(Sys.time()), "\n")
     
-    chk_versija <- "\nProgramos 'R' ir idiegtu paketu patikra (versija 2019-04-12)\n"
+    chk_versija <- "\n\n         Programos 'R' ir idiegtu paketu patikra (versija 2019-04-12)\n\n"
     cat(chk_versija)
     
     # Functions --------------------------------------------------------------
@@ -29,18 +29,21 @@ bs_check_packages <- function(clear_console = FALSE) {
             header = TRUE, sep = "|", stringsAsFactors = FALSE, quote = "'",
             strip.white = TRUE, text = 
                 
-                'paketas	                | reikiama_versija 
-dplyr	                    | 0.8.0
-skimr	                    | 2.0
-pander	                    | 0.6.3
-Rcmdr	                    | 2.5-2
-car 	                    | 3.0-3
-latex2exp	                | 0.4.0
-addin.tools 	            | 0.0.4
-addins.rmd	                | 0.0.6
-addins.rs	                | 0.0.5
-RcmdrPlugin.EZR.as.menu 	| 1.38
-RcmdrPlugin.biostat 	    | 0.0.26
+                'paketas                    | reikiama_versija 
+dplyr                       | 0.8.0
+skimr                       | 2.0
+pander                      | 0.6.3
+Rcmdr                       | 2.5-2
+car                         | 3.0-3
+data.table                  | 1.12.2
+ggstatsplot                 | 0.0.10
+latex2exp                   | 0.4.0
+readxl                      | 1.3.1
+addin.tools                 | 0.0.4
+addins.rmd                  | 0.0.6
+addins.rs                   | 0.0.5
+RcmdrPlugin.EZR.as.menu     | 1.38
+RcmdrPlugin.biostat         | 0.0.26
 ') 
     }
     
@@ -49,16 +52,16 @@ RcmdrPlugin.biostat 	    | 0.0.26
         read.table(
             header = TRUE, sep = "|", stringsAsFactors = FALSE, quote = "'",
             strip.white = TRUE, text = 
-                'paketas	            | diegimo_kodas
-latex2exp	            | remotes::install_github("stefano-meschiari/latex2exp", upgrade = TRUE)
-addin.tools	            | remotes::install_github("GegznaV/addin.tools", upgrade = TRUE)
-addins.rmd	            | remotes::install_github("GegznaV/addins.rmd", upgrade = TRUE)
-addins.rs	            | remotes::install_github("GegznaV/addins.rs", upgrade = TRUE)
-car	                    | install.packages("car", repos = "http://R-Forge.R-project.org")
-skimr	                | remotes::install_github("ropenscilabs/skimr", ref = "v2", upgrade = TRUE)
-pander	                | remotes::install_github("Rapporter/pander", upgrade = TRUE)
-RcmdrPlugin.EZR.as.menu	| remotes::install_github("GegznaV/RcmdrPlugin.EZR@ezr_as_menu", upgrade = TRUE)
-RcmdrPlugin.biostat	    | remotes::install_github("GegznaV/RcmdrPlugin.biostat", ref = "biostat19_not_final", upgrade = TRUE)
+                'paketas                | diegimo_kodas
+latex2exp               | remotes::install_github("stefano-meschiari/latex2exp", upgrade = TRUE)
+addin.tools             | remotes::install_github("GegznaV/addin.tools", upgrade = TRUE)
+addins.rmd              | remotes::install_github("GegznaV/addins.rmd", upgrade = TRUE)
+addins.rs               | remotes::install_github("GegznaV/addins.rs", upgrade = TRUE)
+car                     | install.packages("car", repos = "http://R-Forge.R-project.org")
+skimr                   | remotes::install_github("ropenscilabs/skimr", ref = "v2", upgrade = TRUE)
+pander                  | remotes::install_github("Rapporter/pander", upgrade = TRUE)
+RcmdrPlugin.EZR.as.menu | remotes::install_github("GegznaV/RcmdrPlugin.EZR@ezr_as_menu", upgrade = TRUE)
+RcmdrPlugin.biostat     | remotes::install_github("GegznaV/RcmdrPlugin.biostat", ref = "biostat19_not_final", upgrade = TRUE)
 ')
     }
     
@@ -143,7 +146,7 @@ RcmdrPlugin.biostat	    | remotes::install_github("GegznaV/RcmdrPlugin.biostat",
             
             "data.table",  
             "checkmate", 
-            "BBmisc", 
+            # "BBmisc", 
             "shiny", 
             
             "aplpack",
@@ -191,13 +194,13 @@ RcmdrPlugin.biostat	    | remotes::install_github("GegznaV/RcmdrPlugin.biostat",
             "rvg",
             
             "vcd",
-            "vcdExtra",
-            "fitdistrplus",
+            # "vcdExtra",
+            # "fitdistrplus",
             
             "plotly", 
             "ggthemes", 
             "ggrepel", 
-            "cowplot",
+            # "cowplot",
             "qqplotr", 
             "ggmosaic",
             "ggpubr",
@@ -225,7 +228,7 @@ RcmdrPlugin.biostat	    | remotes::install_github("GegznaV/RcmdrPlugin.biostat",
             "RcmdrPlugin.EZR.as.menu",
             "RcmdrPlugin.biostat",
             
-            "ggstatsplot", # PAckage has a lot of dependencies
+            "ggstatsplot", # Package has a lot of dependencies
             NULL
         ) 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -242,31 +245,59 @@ RcmdrPlugin.biostat	    | remotes::install_github("GegznaV/RcmdrPlugin.biostat",
     }
     
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    check_r_version <- function(recommended_version, packages_ok = TRUE) {
-        # recommended_version <- "3.5.3"
+    check_r_version <- function(recommended_r_version, packages_ok = TRUE) {
+        # recommended_r_version <- "3.5.3"
         
         current_r_version <- paste0(R.version$major, ".", R.version$minor)
         
-        if (compareVersion(current_r_version, recommended_version) < 0) {
+        if (compareVersion(current_r_version, recommended_r_version) < 0) {
             line()
-            txt_1 <- 
-                if (packages_ok) {
-                    "Bet rekomenduojama"
-                    
-                } else {
-                    
-                    "Bet pirmiausia rekomenduojama"  
-                }
-                    
-            cat("\n   ", txt_1, " atnaujinti programa 'R': \n\n",
+            cat("\nPirmiausia rekomenduojama atnaujinti programa 'R': \n\n",
                 "   ", current_r_version, " - dabartine 'R' versija jusu kompiuteryje. \n", 
-                "   ", recommended_version, " - rekomenduojama 'R' versija. Ja galite atsisiusti is https://cran.r-project.org/\n\n",
-                "     - [Windows] https://cran.r-project.org/bin/windows/base/R-", recommended_version, "-win.exe\n",
-                "     - [Mac]     https://cran.r-project.org/bin/macosx/R-", recommended_version, ".pkg \n", sep = "")
+                "   ", recommended_r_version, " - rekomenduojama 'R' versija. Ja galite atsisiusti is:\n\n",
+                
+                "               https://cran.r-project.org/\n\n",
+                
+                "   - [Windows] https://cran.r-project.org/bin/windows/base \n",
+                "   - [Linux]   https://cran.r-project.org/bin/linux/       \n",
+                "   - [Mac]     https://cran.r-project.org/bin/macosx/      \n",
+                
+                "\n\n", 
+                
+                "PASTABA: balandį bus isleista 'R' versija 3.6.0. Jei isidiegsite ja, \n",
+                "         visus paketus reikes atsisiusti is naujo.\n",
+                sep = "")
+            # "     - [Windows] https://cran.r-project.org/bin/windows/base/R-", recommended_r_version, "-win.exe\n",
+            # "     - [Mac]     https://cran.r-project.org/bin/macosx/R-", recommended_r_version, ".pkg \n", sep = "")
         }
-        line()
     }
     
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    check_rs_version <- function(recommended_version) {
+        # recommended_version <- "1.2.1335"
+        
+        if (.Platform$GUI != "RStudio") {
+            
+            line()
+            cat("\nRekomenduojama isidiegti programa 'RStudio': \n\n",
+                "   https://www.rstudio.com/products/rstudio/download/\n\n",
+                sep = "")
+            
+        } else {
+            
+            current_rs_version <- RStudio.Version()$version
+            
+            if (current_rs_version < recommended_version) {
+                
+                line()
+                cat("\nRekomenduojama atnaujinti programa 'RStudio': \n\n",
+                    "   ", as.character(current_rs_version), " - dabartine 'RStudio' versija jusu kompiuteryje. \n", 
+                    "   ", recommended_version, " - rekomenduojama si arba naujesne versija, nurodyta tinklapyje: \n\n",
+                    "   https://www.rstudio.com/products/rstudio/download/\n\n",
+                    sep = "")
+            }
+        }
+    }    
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     package_installation_code <- function(pkgs) {
         
@@ -332,12 +363,21 @@ RcmdrPlugin.biostat	    | remotes::install_github("GegznaV/RcmdrPlugin.biostat",
         
     }
     
-    cat("\n\n___ Patikra baigta: _________________________________________________________ \n")
+    cat("\n\n___ Patikros ataskaita: _____________________________________________________ \n")
     
-    # Check packages
+    # Check R version --------------------------------------------------------
+    check_r_version(recommended_r_version = "3.5.3")
+    
+    # Check RStudio version --------------------------------------------------
+    check_rs_version(recommended_version = "1.2.1335")
+    
+    # Check packages ---------------------------------------------------------
+    
+    line()
     if (recommended_ok) {
         cat("\n   Rekomenduojamos minimalios paketu versijos jusu kompiuteryje jau yra.\n")
-
+        line()
+        
     } else {
         
         cat("\n--- Paketai, kuriuos rekomenduojama idiegti arba atnaujinti: ----------------\n\n")
@@ -345,15 +385,21 @@ RcmdrPlugin.biostat	    | remotes::install_github("GegznaV/RcmdrPlugin.biostat",
         
         cat(
             "\n\n   Pries diegdami (atnaujindami) paketus:\n",
-            "     1. isjunkite 'RStudio' projekta; \n",
-            "     2. perkraukite 'R';                              <--- \n",
-            "     3. tik tada naudodami si koda idiekite paketus: \n\n", sep = "")
+            "     1. uzdarykite 'RStudio' projekta (jei dirbate projekte); \n",
+            "     2. perkraukite 'R';                                                         <--- \n",
+            "     3. ir tik tada idiekite paketus: nukopijuokite zemiau nurodyta koda i langa \n",
+            "        'Console' ir paspauskite 'Enter' klavisa: \n\n", sep = "")
         
         cat(installation_code, sep = "\n")
+        
+        line()
+        
+        cat("\n [!] SVARBU: Atidziai nuo pradziu perskaitykite VISA patikros ataskaita!!! \n",
+            "            Jei reikia, pirmiausia atnaujinkite programas.\n",
+            "            Isidiege nurodytus paketus sia patikra pakartokite is naujo.")
     }
     
-    # Check R version --------------------------------------------------------
-    check_r_version(recommended_version = "3.5.3", recommended_ok)
+    
     
 }
 
