@@ -357,6 +357,6 @@ RcmdrPlugin.biostat	    | remotes::install_github("GegznaV/RcmdrPlugin.biostat",
     
 }
 
-bs_check_packages(clear_console = TRUE)
+bs_check_packages(clear_console = FALSE)
 
 
