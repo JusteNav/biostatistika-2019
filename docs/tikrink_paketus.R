@@ -19,7 +19,7 @@ bs_check_packages <- function(clear_console = FALSE) {
     line()
     cat(as.character(Sys.time()), "\n")
     
-    chk_versija <- "\n\n         Programos 'R' ir idiegtu paketu patikra (versija 2019-04-12)\n\n"
+    chk_versija <- "\n\n         Programos 'R' ir idiegtu paketu patikra (versija 2019-04-16)\n\n"
     cat(chk_versija)
     
     # Functions --------------------------------------------------------------
