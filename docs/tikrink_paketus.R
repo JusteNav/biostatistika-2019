@@ -19,7 +19,7 @@ bs_check_packages <- function(clear_console = FALSE) {
     line()
     cat(as.character(Sys.time()), "\n")
     
-    chk_versija <- "\n\n         Programos 'R' ir idiegtu paketu patikra (versija 2019-04-16)\n\n"
+    chk_versija <- "\n\n         Programos 'R' ir idiegtu paketu patikra (versija 2019-04-23)\n\n"
     cat(chk_versija)
     
     # Functions --------------------------------------------------------------
@@ -43,7 +43,7 @@ addin.tools                 | 0.0.4
 addins.rmd                  | 0.0.6
 addins.rs                   | 0.0.5
 RcmdrPlugin.EZR.as.menu     | 1.38
-RcmdrPlugin.biostat         | 0.0.28
+RcmdrPlugin.biostat         | 0.0.32
 ') 
     }
     
