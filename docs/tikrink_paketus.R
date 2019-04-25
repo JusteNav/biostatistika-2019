@@ -19,7 +19,7 @@ bs_check_packages <- function(clear_console = FALSE) {
     line()
     cat(as.character(Sys.time()), "\n")
     
-    chk_versija <- "\n\n         Programos 'R' ir idiegtu paketu patikra (versija 2019-04-23)\n\n"
+    chk_versija <- "\n\n         Programos 'R' ir idiegtu paketu patikra (versija 2019-04-24)\n\n"
     cat(chk_versija)
     
     # Functions --------------------------------------------------------------
@@ -44,6 +44,7 @@ addins.rmd                  | 0.0.6
 addins.rs                   | 0.0.5
 RcmdrPlugin.EZR.as.menu     | 1.38
 RcmdrPlugin.biostat         | 0.0.32
+ggstatsplot                 | 0.0.10.9000
 ') 
     }
     
@@ -62,6 +63,7 @@ skimr                   | remotes::install_github("ropenscilabs/skimr", ref = "v
 pander                  | remotes::install_github("Rapporter/pander", upgrade = TRUE)
 RcmdrPlugin.EZR.as.menu | remotes::install_github("GegznaV/RcmdrPlugin.EZR@ezr_as_menu", upgrade = TRUE)
 RcmdrPlugin.biostat     | remotes::install_github("GegznaV/RcmdrPlugin.biostat", ref = "biostat19_not_final", upgrade = TRUE)
+ggstatsplot             | remotes::install_github("IndrajeetPatil/ggstatsplot", upgrade = TRUE)
 ')
     }
     
@@ -89,6 +91,7 @@ RcmdrPlugin.biostat     | remotes::install_github("GegznaV/RcmdrPlugin.biostat",
         # All packages in the list after the current one:
         # rev(pkgs_vec)[1:which(rev(pkgs_vec) == "cowplot")]
         
+        library(tidyverse)
         
         list_after <- function(which, list) {
             rev(rev(list)[1:which(rev(list) == which)])
@@ -206,6 +209,8 @@ RcmdrPlugin.biostat     | remotes::install_github("GegznaV/RcmdrPlugin.biostat",
             "ggpubr",
             "latex2exp",
             
+            "XNomial",
+            
             "addin.tools", 
             "addins.rmd", 
             "addins.rs", 
@@ -227,6 +232,11 @@ RcmdrPlugin.biostat     | remotes::install_github("GegznaV/RcmdrPlugin.biostat",
             "RcmdrPlugin.KMggplot2",
             "RcmdrPlugin.EZR.as.menu",
             "RcmdrPlugin.biostat",
+            
+            "AMR",
+            "RVAideMemoire",
+            "EMT",
+            "XNomial",
             
             "ggstatsplot", # Package has a lot of dependencies
             NULL
@@ -264,7 +274,7 @@ RcmdrPlugin.biostat     | remotes::install_github("GegznaV/RcmdrPlugin.biostat",
                 
                 "\n\n", 
                 
-                "PASTABA: balandį bus isleista 'R' versija 3.6.0. Jei isidiegsite ja, \n",
+                "PASTABA: balandi bus isleista 'R' versija 3.6.0. Jei isidiegsite ja, \n",
                 "         visus paketus reikes atsisiusti is naujo.\n",
                 sep = "")
             # "     - [Windows] https://cran.r-project.org/bin/windows/base/R-", recommended_r_version, "-win.exe\n",
@@ -405,9 +415,7 @@ RcmdrPlugin.biostat     | remotes::install_github("GegznaV/RcmdrPlugin.biostat",
             "            Jei reikia, pirmiausia atnaujinkite programas.\n",
             "            Isidiege nurodytus paketus sia patikra pakartokite is naujo.")
     }
-    
-    
-    
+
 }
 
 bs_check_packages(clear_console = FALSE)
