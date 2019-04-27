@@ -62,7 +62,7 @@ car                     | install.packages("car", repos = "http://R-Forge.R-proj
 skimr                   | remotes::install_github("ropenscilabs/skimr", ref = "v2", upgrade = TRUE)
 pander                  | remotes::install_github("Rapporter/pander", upgrade = TRUE)
 RcmdrPlugin.EZR.as.menu | remotes::install_github("GegznaV/RcmdrPlugin.EZR@ezr_as_menu", upgrade = TRUE)
-RcmdrPlugin.biostat     | remotes::install_github("GegznaV/RcmdrPlugin.biostat", ref = "biostat19_not_final", upgrade = TRUE)
+RcmdrPlugin.biostat     | remotes::install_github("GegznaV/RcmdrPlugin.biostat", upgrade = TRUE)
 ggstatsplot             | remotes::install_github("IndrajeetPatil/ggstatsplot", upgrade = TRUE)
 ')
     }
@@ -274,7 +274,7 @@ ggstatsplot             | remotes::install_github("IndrajeetPatil/ggstatsplot", 
                 
                 "\n\n", 
                 
-                "PASTABA: balandi bus isleista 'R' versija 3.6.0. Jei isidiegsite ja, \n",
+                "PASTABA: balandį bus isleista 'R' versija 3.6.0. Jei isidiegsite ja, \n",
                 "         visus paketus reikes atsisiusti is naujo.\n",
                 sep = "")
             # "     - [Windows] https://cran.r-project.org/bin/windows/base/R-", recommended_r_version, "-win.exe\n",
@@ -352,7 +352,9 @@ ggstatsplot             | remotes::install_github("IndrajeetPatil/ggstatsplot", 
     recommended_ok <- TRUE
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
-    tmp <- merge(get_pkgs_recommended(), get_pkgs_installed(), by.x = "paketas", by.y = "Package", all.x = TRUE)
+    tmp <- merge(get_pkgs_recommended(), get_pkgs_installed(),
+                 by.x = "paketas", by.y = "Package", all.x = TRUE)
+    
     tmp <- merge(tmp, get_pkgs_req_version(), by = "paketas", all.x = TRUE)
     
     tmp$up_to_date <- with(tmp, compare_version(Version, reikiama_versija))
@@ -419,5 +421,4 @@ ggstatsplot             | remotes::install_github("IndrajeetPatil/ggstatsplot", 
 }
 
 bs_check_packages(clear_console = FALSE)
-
 
