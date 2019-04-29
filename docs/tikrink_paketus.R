@@ -268,9 +268,9 @@ ggstatsplot             | remotes::install_github("IndrajeetPatil/ggstatsplot", 
                 
                 "               https://cran.r-project.org/\n\n",
                 
-                "   - [Windows] https://cran.r-project.org/bin/windows/base \n",
-                "   - [Linux]   https://cran.r-project.org/bin/linux/       \n",
-                "   - [Mac]     https://cran.r-project.org/bin/macosx/      \n",
+                "   - [Windows] https://cran.r-project.org/bin/windows/base/old/3.5.3/ \n",
+                "   - [Mac]     https://cran.r-project.org/bin/macosx/R-3.5.3.pkg      \n",
+                "   - [Linux]   https://cran.r-project.org/bin/linux/                  \n",
                 
                 "\n\n", 
                 
@@ -421,4 +421,5 @@ ggstatsplot             | remotes::install_github("IndrajeetPatil/ggstatsplot", 
 }
 
 bs_check_packages(clear_console = FALSE)
+
 
