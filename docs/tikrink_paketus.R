@@ -33,7 +33,7 @@ bs_check_packages <- function(clear_console = FALSE) {
 dplyr                       | 0.8.0
 skimr                       | 2.0
 pander                      | 0.6.3
-Rcmdr                       | 2.5-2
+Rcmdr                       | 2.5-3
 car                         | 3.0-3
 data.table                  | 1.12.2
 ggstatsplot                 | 0.0.10
@@ -43,7 +43,7 @@ addin.tools                 | 0.0.4
 addins.rmd                  | 0.0.6
 addins.rs                   | 0.0.5
 RcmdrPlugin.EZR.as.menu     | 1.38
-RcmdrPlugin.biostat         | 0.0.34
+RcmdrPlugin.biostat         | 0.0.35
 ggstatsplot                 | 0.0.10.9000
 ') 
     }
