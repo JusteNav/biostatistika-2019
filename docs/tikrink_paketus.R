@@ -43,7 +43,7 @@ addin.tools                 | 0.0.4
 addins.rmd                  | 0.0.6
 addins.rs                   | 0.0.5
 RcmdrPlugin.EZR.as.menu     | 1.38
-RcmdrPlugin.biostat         | 0.0.35
+RcmdrPlugin.biostat         | 0.0.37
 ggstatsplot                 | 0.0.10.9000
 ') 
     }
@@ -208,8 +208,6 @@ ggstatsplot             | remotes::install_github("IndrajeetPatil/ggstatsplot", 
             "ggmosaic",
             "ggpubr",
             "latex2exp",
-            
-            "XNomial",
             
             "addin.tools", 
             "addins.rmd", 
