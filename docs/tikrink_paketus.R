@@ -36,14 +36,13 @@ pander                      | 0.6.3
 Rcmdr                       | 2.5-3
 car                         | 3.0-3
 data.table                  | 1.12.2
-ggstatsplot                 | 0.0.10
 latex2exp                   | 0.4.0
 readxl                      | 1.3.1
 addin.tools                 | 0.0.4
 addins.rmd                  | 0.0.6
 addins.rs                   | 0.0.5
 RcmdrPlugin.EZR.as.menu     | 1.38
-RcmdrPlugin.biostat         | 0.0.38
+RcmdrPlugin.biostat         | 0.0.39
 ggstatsplot                 | 0.0.10.9000
 ') 
     }
