@@ -27,14 +27,13 @@ bs_check_packages <- function(clear_console = FALSE) {
     get_pkgs_req_version <- function() {
         read.table(
             header = TRUE, sep = "|", stringsAsFactors = FALSE, quote = "'",
-            strip.white = TRUE, text = 
-                
-                'paketas                    | reikiama_versija 
+            strip.white = TRUE, text = '
+paketas                     | reikiama_versija 
 dplyr                       | 0.8.0
 skimr                       | 2.0
 pander                      | 0.6.3
 Rcmdr                       | 2.5-3
-car                         | 3.0-3
+car                         | 3.0-4
 data.table                  | 1.12.2
 latex2exp                   | 0.4.0
 readxl                      | 1.3.1
@@ -42,7 +41,7 @@ addin.tools                 | 0.0.4
 addins.rmd                  | 0.0.6
 addins.rs                   | 0.0.5
 RcmdrPlugin.EZR.as.menu     | 1.38
-RcmdrPlugin.biostat         | 0.0.39
+RcmdrPlugin.biostat         | 0.0.40
 ggstatsplot                 | 0.0.10.9000
 ') 
     }
@@ -51,8 +50,8 @@ ggstatsplot                 | 0.0.10.9000
     get_pkgs_installation_code <- function() {
         read.table(
             header = TRUE, sep = "|", stringsAsFactors = FALSE, quote = "'",
-            strip.white = TRUE, text = 
-                'paketas                | diegimo_kodas
+            strip.white = TRUE, text = '
+paketas                 | diegimo_kodas
 latex2exp               | remotes::install_github("stefano-meschiari/latex2exp", upgrade = TRUE)
 addin.tools             | remotes::install_github("GegznaV/addin.tools", upgrade = TRUE)
 addins.rmd              | remotes::install_github("GegznaV/addins.rmd", upgrade = TRUE)
@@ -63,6 +62,7 @@ pander                  | remotes::install_github("Rapporter/pander", upgrade = 
 RcmdrPlugin.EZR.as.menu | remotes::install_github("GegznaV/RcmdrPlugin.EZR@ezr_as_menu", upgrade = TRUE)
 RcmdrPlugin.biostat     | remotes::install_github("GegznaV/RcmdrPlugin.biostat", upgrade = TRUE)
 ggstatsplot             | remotes::install_github("IndrajeetPatil/ggstatsplot", upgrade = TRUE)
+report                  | remotes::install_github("easystats/report", upgrade = TRUE)
 ')
     }
     
@@ -221,6 +221,7 @@ ggstatsplot             | remotes::install_github("IndrajeetPatil/ggstatsplot", 
             "DescTools",
             "rcompanion",
             "skimr", 
+            # "report",
             # "infer",
             
             "RcmdrMisc", 
