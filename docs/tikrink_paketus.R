@@ -1,7 +1,10 @@
 
-bs_check_packages <- function(clear_console = FALSE) {
+bs_check_packages <- function(clear_console = FALSE, 
+  recommended_r_version = "3.5.3", recommended_rs_version = "1.2.1335") {
     
-    # v2.0
+    data         <- "2019-07-24"
+    kodo_versija <- "v2.1"
+    
     
     if (clear_console == TRUE) {
         cat("\014")
@@ -10,18 +13,19 @@ bs_check_packages <- function(clear_console = FALSE) {
         cat("\n\n")
     }
     
-    line <- function() {
+    draw_line <- function() {
         cat("\n-----------------------------------------------------------------------------\n")
-        
     }
     
     # Initial message --------------------------------------------------------
-    line()
+    draw_line()
+    cat("PRADŽIA \n\n")
     cat(as.character(Sys.time()), "\n")
     
-    chk_versija <- "\n\n         Programos 'R' ir idiegtu paketu patikra (versija 2019-04-28)\n\n"
+    chk_versija <- paste0("\n\n         Programos 'R' ir idiegtu paketu patikra (versija ", data, ")\n\n")
     cat(chk_versija)
     
+    # ------------------------------------------------------------------------
     # Functions --------------------------------------------------------------
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     get_pkgs_req_version <- function() {
@@ -41,8 +45,9 @@ addin.tools                 | 0.0.4
 addins.rmd                  | 0.0.6
 addins.rs                   | 0.0.5
 RcmdrPlugin.EZR.as.menu     | 1.38
-RcmdrPlugin.biostat         | 0.0.40
-ggstatsplot                 | 0.0.10.9000
+RcmdrPlugin.biostat         | 0.0.41
+ggstatsplot                 | 0.0.11
+gghighlight                 | 0.1.0.9000
 ') 
     }
     
@@ -56,15 +61,17 @@ latex2exp               | remotes::install_github("stefano-meschiari/latex2exp",
 addin.tools             | remotes::install_github("GegznaV/addin.tools", upgrade = TRUE)
 addins.rmd              | remotes::install_github("GegznaV/addins.rmd", upgrade = TRUE)
 addins.rs               | remotes::install_github("GegznaV/addins.rs", upgrade = TRUE)
-car                     | install.packages("car", repos = "http://R-Forge.R-project.org")
+car                     | install.packages("car", repos = "http://R-Forge.R-project.org", dependencies = TRUE)
 skimr                   | remotes::install_github("ropenscilabs/skimr", ref = "v2", upgrade = TRUE)
 pander                  | remotes::install_github("Rapporter/pander", upgrade = TRUE)
 RcmdrPlugin.EZR.as.menu | remotes::install_github("GegznaV/RcmdrPlugin.EZR@ezr_as_menu", upgrade = TRUE)
 RcmdrPlugin.biostat     | remotes::install_github("GegznaV/RcmdrPlugin.biostat", upgrade = TRUE)
-ggstatsplot             | remotes::install_github("IndrajeetPatil/ggstatsplot", upgrade = TRUE)
-report                  | remotes::install_github("easystats/report", upgrade = TRUE)
+gghighlight             | remotes::install_github("yutannihilation/gghighlight", upgrade = TRUE)
+adventr                 | remotes::install_github("profandyfield/adventr", upgrade = TRUE)
 ')
     }
+    # ggstatsplot             | remotes::install_github("IndrajeetPatil/ggstatsplot", upgrade = TRUE)
+    # report                  | remotes::install_github("easystats/report", upgrade = TRUE)
     
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     get_pkgs_installed <- function() {
@@ -143,6 +150,9 @@ report                  | remotes::install_github("easystats/report", upgrade = 
         pkgs_vec <- c(
             "remotes", 
             "fs",
+            "curl",
+            "stringi", 
+            "stringr",
             "devtools",
             "ctv", 
             
@@ -170,11 +180,10 @@ report                  | remotes::install_github("easystats/report", upgrade = 
             
             "carData",
             "car", 
+            "alr4",
             "RCurl", 
             
             "tidyselect",
-            "stringi", 
-            "stringr",
             "dplyr",
             "tidyr",
             "ggplot2", 
@@ -233,8 +242,13 @@ report                  | remotes::install_github("easystats/report", upgrade = 
             
             "AMR",
             "RVAideMemoire",
-            "EMT",
+            # "EMT",  # dependency of rcompanion 
             "XNomial",
+            
+            
+            # "import",
+            "adventr",
+            "gghighlight",
             
             "ggstatsplot", # Package has a lot of dependencies
             NULL
@@ -259,10 +273,10 @@ report                  | remotes::install_github("easystats/report", upgrade = 
         current_r_version <- paste0(R.version$major, ".", R.version$minor)
         
         if (compareVersion(current_r_version, recommended_r_version) < 0) {
-            line()
+            draw_line()
             cat("\nPirmiausia rekomenduojama atnaujinti programa 'R': \n\n",
                 "   ", current_r_version, " - dabartine 'R' versija jusu kompiuteryje. \n", 
-                "   ", recommended_r_version, " - rekomenduojama 'R' versija. Ja galite atsisiusti is:\n\n",
+                "   ", recommended_r_version, " (arba naujesnė) - rekomenduojama 'R' versija. Ja galite atsisiusti is:\n\n",
                 
                 "               https://cran.r-project.org/\n\n",
                 
@@ -272,8 +286,8 @@ report                  | remotes::install_github("easystats/report", upgrade = 
                 
                 "\n\n", 
                 
-                "PASTABA: balandį bus isleista 'R' versija 3.6.0. Jei isidiegsite ja, \n",
-                "         visus paketus reikes atsisiusti is naujo.\n",
+                "PASTABA: Jei isidiegsite 'R' versija 3.6.0 ar naujesne, \n",
+                "         visus paketus teks atsisiusti is naujo.\n",
                 sep = "")
             # "     - [Windows] https://cran.r-project.org/bin/windows/base/R-", recommended_r_version, "-win.exe\n",
             # "     - [Mac]     https://cran.r-project.org/bin/macosx/R-", recommended_r_version, ".pkg \n", sep = "")
@@ -282,14 +296,32 @@ report                  | remotes::install_github("easystats/report", upgrade = 
     }
     
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    check_rs_version <- function(recommended_version) {
-        # recommended_version <- "1.2.1335"
+    check_rs_version <- function(recommended_rs_version) {
+        # recommended_rs_version <- "1.2.1335"
+        
+        arch_bits <- Sys.info()[["machine"]]
+        
+        if (arch_bits == "x86-32") {
+            # For 32 bits system:
+            recommended_rs_version <- "1.1.463"
+            rs_download_url <- paste0(
+                "   Versiją 1.1.463 skirtą 32 bitų (senesnėms) sistemoms galite atsisiųsti iš svetainės \n",
+                "   https://support.rstudio.com/hc/en-us/articles/206569407-Older-Versions-of-RStudio \n\n")
+            
+        } else {
+            # For 64 bits system
+            recommended_rs_version <- recommended_rs_version
+            rs_download_url <- paste0(
+                "   Naujausią versiją galite atsisiųsti iš svetainės \n",
+                "   https://www.rstudio.com/products/rstudio/download/\n\n"
+            )
+        }
         
         if (.Platform$GUI != "RStudio") {
             
-            line()
-            cat("\nRekomenduojama isidiegti programa 'RStudio': \n\n",
-                "   https://www.rstudio.com/products/rstudio/download/\n\n",
+            draw_line()
+            cat("\nRekomenduojama įsidiegti programą 'RStudio', jei jos dar neturite. \n\n",
+                rs_download_url,
                 sep = "")
             return(TRUE)
             
@@ -297,13 +329,13 @@ report                  | remotes::install_github("easystats/report", upgrade = 
             
             current_rs_version <- RStudio.Version()$version
             
-            if (current_rs_version < recommended_version) {
+            if (current_rs_version < recommended_rs_version) {
                 
-                line()
-                cat("\nRekomenduojama atnaujinti programa 'RStudio': \n\n",
-                    "   ", as.character(current_rs_version), " - dabartine 'RStudio' versija jusu kompiuteryje. \n", 
-                    "   ", recommended_version, " - rekomenduojama si arba naujesne versija, nurodyta tinklapyje: \n\n",
-                    "   https://www.rstudio.com/products/rstudio/download/\n\n",
+                draw_line()
+                cat("\nRekomenduojama atnaujinti programą 'RStudio': \n\n",
+                    "   ", as.character(current_rs_version), " - dabartinė 'RStudio' versija jūsų kompiuteryje. \n", 
+                    "   ", recommended_rs_version, " - rekomenduojama minimali versija. \n\n",
+                    rs_download_url,
                     sep = "")
                 return(TRUE)
             }
@@ -379,23 +411,24 @@ report                  | remotes::install_github("easystats/report", upgrade = 
     cat("\n\n___ Patikros ataskaita: _____________________________________________________ \n")
     
     # Check R version --------------------------------------------------------
-    chk_r <- check_r_version(recommended_r_version = "3.5.3")
+    chk_r <- check_r_version(recommended_r_version = recommended_r_version)
     
     
     # Check RStudio version --------------------------------------------------
-    chk_rs <- check_rs_version(recommended_version = "1.2.1335")
+    chk_rs <- check_rs_version(recommended_rs_version = recommended_rs_version)
     
     
     # Check packages ---------------------------------------------------------
     if (recommended_ok) {
         if (isTRUE(chk_r) || isTRUE(chk_rs)) {
-            line()   
+            draw_line()   
         }
-        cat("\n   Rekomenduojamos minimalios paketu versijos jusu kompiuteryje jau yra.\n")
-        line()
+        cat("\n   Rekomenduojamos minimalios paketu versijos jusu kompiuteryje jau yra.")
+        cat("\n   Atnaujinimus diegti nėra būtina.\n")
+        draw_line()
         
     } else {
-        line()
+        draw_line()
         
         cat("\n--- Paketai, kuriuos rekomenduojama idiegti arba atnaujinti: ----------------\n\n")
         print(tmp3)
@@ -409,10 +442,11 @@ report                  | remotes::install_github("easystats/report", upgrade = 
         
         cat(installation_code, sep = "\n")
         
-        line()
+        draw_line()
         
-        cat("\n [!] SVARBU: Atidziai nuo pradziu perskaitykite VISA patikros ataskaita!!! \n",
-            "            Jei reikia, pirmiausia atnaujinkite programas.\n",
+        cat("\n [!] SVARBU: \n",
+            "            Atidziai nuo pradziu perskaitykite VISA patikros ataskaita!!! \n",
+            "            Jei reikia, pirmiausia atnaujinkite programas. \n",
             "            Isidiege nurodytus paketus sia patikra pakartokite is naujo.")
     }
     
