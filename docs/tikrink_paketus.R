@@ -241,7 +241,7 @@ mlr                     | install.packages("mlr", dependencies = TRUE)
 
 # ============================================================================
 
-bs_check_packages <- function(clear_console = NULL, 
+bs_check_packages <- function(clear_console = FALSE, 
                               recommended_r_version  = "3.5.3",
                               recommended_rs_version = "1.2.1335") {
     
@@ -253,7 +253,10 @@ bs_check_packages <- function(clear_console = NULL,
     }
     # ------------------------------------------------------------------------
     if (is.null(clear_console)) {
-        cat("Ar norite išvalyti komandų langą (Console)? \n(Įrašykite varianto pasirinkimo numerį)\n")
+        cat("Ar norite išvalyti komandų langą „Console“?\n",
+            "(Nebūtina, bet patogiau peržiūrėti rezultatus)\n",
+            "Įrašykite pasirinkimo numerį\n", sep = "")
+        
         ans <- utils::menu(c("Taip", "Ne")) 
         if (ans == 1) {
             cat("\014")
@@ -500,7 +503,7 @@ bs_check_packages <- function(clear_console = NULL,
         cat("\n [!] SVARBU: \n",
             "            Atidžiai nuo pradžių perskaitykite VISĄ patikros ataskaitą!!! \n",
             "            Jei reikia, pirmiausia atnaujinkite programas. \n",
-            "            Įsidiegę nurodytus paketus šią patikrą pakartokite iš1 naujo.")
+            "            Įsidiegę nurodytus paketus šią patikrą pakartokite iš naujo.")
     }
     
 }
